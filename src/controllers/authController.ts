@@ -12,7 +12,7 @@ export const signup = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
-        role: role === "organizer" ? "ORGANIZER" : "VOLUNTEER",
+        role: role === "ORGANIZER" ? "ORGANIZER" : "VOLUNTEER",
       },
     });
     res.status(201).json({
@@ -44,7 +44,7 @@ export const signin = async (req: Request, res: Response): Promise<any> => {
       process.env.JWT_SECRET!,
       { expiresIn: "1d" }
     );
-    return res.json({ token });
+    return res.json({ token,role:user.role });
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
   }

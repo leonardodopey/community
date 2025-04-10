@@ -5,6 +5,17 @@ export const registerToEvent = async (req: Request | any, res: Response) => {
     const eventId = req.params.eventId;
     const userId = req.user?.userId;
 
+    const isAlreadyRegistered = await prisma.registration.findFirst({
+      where: {
+        userId,
+        eventId,
+      },
+    });
+    if (isAlreadyRegistered) {
+      res.status(203).json({ message: "Already Exists" });
+      return;
+    }
+
     const result = await prisma.registration.create({
       data: {
         eventId,

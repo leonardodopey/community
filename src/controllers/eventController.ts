@@ -11,7 +11,24 @@ export const getEvent = async (req: any, res: Response) => {
       },
       omit: { userId: true, createdAt: true },
     });
-    res.status(200).json({ events });
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json("something went wrong");
+  }
+};
+export const getSingleEvent = async (req: Request, res: Response) => {
+  try {
+    const { eventId } = req.params;
+    const event = await prisma.event.findUnique({
+      where: { id: eventId },
+      include: {
+        user: {
+          select: { name: true, email: true },
+        },
+      },
+      omit: { userId: true, createdAt: true },
+    });
+    res.status(200).json(event);
   } catch (error) {
     res.status(500).json("something went wrong");
   }

@@ -10,6 +10,7 @@ export const authenticate: RequestHandler = (
   next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
+  console.log(authHeader);
   if (!authHeader) {
     res.status(401).json({ error: "No token provided" });
     return;
