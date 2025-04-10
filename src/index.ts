@@ -1,0 +1,14 @@
+import express from "express";
+import cors from "cors";
+import { prisma } from "./config/prisma";
+import authRoutes from "./routes/authRoutes";
+import eventRoutes from "./routes/eventRoutes";
+import registerRoutes from "./routes/registrationRoutes";
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use("/api/auth", authRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/register", registerRoutes);
+const port = process.env.PORT ? process.env.PORT : 3000;
+app.listen(port, () => console.log(`Server is running on Port:${port}`));
